@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<libraryInfos>
+    <libraryInfo home="/Users/edgharutyunyan/.sdkman/candidates/java/8.0.392-amzn" version="1.8.0_392">
+        <bootpath>
+            <entry path="/Users/edgharutyunyan/.sdkman/candidates/java/8.0.392-amzn/jre/lib/resources.jar"/>
+            <entry path="/Users/edgharutyunyan/.sdkman/candidates/java/8.0.392-amzn/jre/lib/rt.jar"/>
+            <entry path="/Users/edgharutyunyan/.sdkman/candidates/java/8.0.392-amzn/jre/lib/sunrsasign.jar"/>
+            <entry path="/Users/edgharutyunyan/.sdkman/candidates/java/8.0.392-amzn/jre/lib/jsse.jar"/>
+            <entry path="/Users/edgharutyunyan/.sdkman/candidates/java/8.0.392-amzn/jre/lib/jce.jar"/>
+            <entry path="/Users/edgharutyunyan/.sdkman/candidates/java/8.0.392-amzn/jre/lib/charsets.jar"/>
+            <entry path="/Users/edgharutyunyan/.sdkman/candidates/java/8.0.392-amzn/jre/lib/jfr.jar"/>
+            <entry path="/Users/edgharutyunyan/.sdkman/candidates/java/8.0.392-amzn/jre/classes"/>
+        </bootpath>
+        <extensionDirs>
+            <entry path="/Users/edgharutyunyan/Library/Java/Extensions"/>
+            <entry path="/Users/edgharutyunyan/.sdkman/candidates/java/8.0.392-amzn/jre/lib/ext"/>
+            <entry path="/Library/Java/Extensions"/>
+            <entry path="/Network/Library/Java/Extensions"/>
+            <entry path="/System/Library/Java/Extensions"/>
+            <entry path="/usr/lib/java"/>
+        </extensionDirs>
+        <endorsedDirs>
+            <entry path="/Users/edgharutyunyan/.sdkman/candidates/java/8.0.392-amzn/jre/lib/endorsed"/>
+        </endorsedDirs>
+    </libraryInfo>
+    <libraryInfo home="/Users/edgharutyunyan/Library/Java/JavaVirtualMachines/openjdk-21.0.1/Contents/Home" version="21.0.1"/>
+    <libraryInfo home="/Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/Home" version="1.8.0_411">
+        <bootpath>
+            <entry path="/Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/Home/lib/resources.jar"/>
+            <entry path="/Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/Home/lib/rt.jar"/>
+            <entry path="/Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/Home/lib/jsse.jar"/>
+            <entry path="/Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/Home/lib/jce.jar"/>
+            <entry path="/Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/Home/lib/charsets.jar"/>
+            <entry path="/Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/Home/lib/jfr.jar"/>
+            <entry path="/Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/Home/classes"/>
+        </bootpath>
+        <extensionDirs>
+            <entry path="/Users/edgharutyunyan/Library/Java/Extensions"/>
+            <entry path="/Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/Home/lib/ext"/>
+            <entry path="/Library/Java/Extensions"/>
+            <entry path="/Network/Library/Java/Extensions"/>
+            <entry path="/System/Library/Java/Extensions"/>
+            <entry path="/usr/lib/java"/>
+        </extensionDirs>
+        <endorsedDirs>
+            <entry path="/Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/Home/lib/endorsed"/>
+        </endorsedDirs>
+    </libraryInfo>
+</libraryInfos>
