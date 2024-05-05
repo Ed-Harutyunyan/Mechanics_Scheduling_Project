@@ -1,0 +1,75 @@
+import java.util.Arrays;
+import java.util.Random;
+
+public class Autoassociator {
+	private int weights[][];
+	private int trainingCapacity;
+	
+	public Autoassociator(CourseArray courses) {
+		int numCourses = courses.length();
+
+        weights = new int[numCourses][numCourses];
+
+        initializeWeightsRandomly();
+	}
+	
+	public int getTrainingCapacity() {
+	    return (int) 0.138 * weights.length;
+	}
+	
+	public void training(int pattern[]) {
+		if (pattern.length != weights.length) {
+	        throw new IllegalArgumentException("Pattern length must match the number of neurons");
+	    }
+
+	    for (int i = 0; i < weights.length; i++) {
+	        for (int j = 0; j < weights.length; j++) {
+	            weights[i][j] += pattern[i] * pattern[j];
+	        }
+	    }
+	}
+	
+	public int unitUpdate(int neurons[]) {
+		int index = new Random().nextInt(neurons.length);
+
+	    unitUpdate(neurons, index);
+
+	    return index;
+	}
+	
+	public void unitUpdate(int neurons[], int index) {
+		int input = 0;
+	    for (int i = 0; i < neurons.length; i++) {
+	        input += weights[index][i] * neurons[i];
+	    }
+
+	    neurons[index] = (input >= 0) ? 1 : -1;
+	}
+	
+	public void chainUpdate(int neurons[], int steps) {
+		for (int i = 0; i < steps; i++) {
+	        unitUpdate(neurons);
+	    }
+	}
+	
+	public void fullUpdate(int neurons[]) {
+		int[] prevNeurons = Arrays.copyOf(neurons, neurons.length);
+
+	    do {
+	        unitUpdate(neurons);
+
+	    } while (!Arrays.equals(neurons, prevNeurons));
+
+	    System.out.println("Final state: " + Arrays.toString(neurons));
+	}
+	
+	private void initializeWeightsRandomly() {
+        Random random = new Random();
+        for (int i = 0; i < weights.length; i++) {
+            for (int j = 0; j < weights[i].length; j++) {
+                // Initialize each weight randomly to -1 or 1
+                weights[i][j] = random.nextBoolean() ? 1 : -1;
+            }
+        }
+    }
+}

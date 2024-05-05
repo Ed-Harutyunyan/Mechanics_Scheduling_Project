@@ -13,6 +13,14 @@ public class CourseArray {
 			elements[i] = new Course();
 	}
 	
+	public int[] getSlots() {
+        int[] slots = new int[elements.length];
+        for (int i = 1; i < elements.length; i++) {
+            slots[i] = elements[i].mySlot;
+        }
+        return slots;
+    }
+	
 	public void readClashes(String filename) {
 		try {
 			BufferedReader file = new BufferedReader(new FileReader(filename));

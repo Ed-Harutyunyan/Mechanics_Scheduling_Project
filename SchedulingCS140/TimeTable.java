@@ -1,34 +1,40 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Random;
+
 import javax.swing.*;
 
 public class TimeTable extends JFrame implements ActionListener {
 
 	private JPanel screen = new JPanel(), tools = new JPanel();
-	private JButton tool[];
+	private JButton tool[], continueButton;
 	private JTextField field[];
 	private CourseArray courses;
 	private Color CRScolor[] = {Color.RED, Color.GREEN, Color.BLACK};
+	private String fileName;
+
 	
-	public TimeTable() {
+	
+	public TimeTable(int slots, int iterations, int shifts, String fileName) {
 		super("Dynamic Time Table");
-		setSize(500, 800);
+		setSize(800, 800);
 		setLayout(new FlowLayout());
 		
 		screen.setPreferredSize(new Dimension(400, 800));
 		add(screen);
 		
-		setTools();
+		setTools(slots, iterations, shifts, fileName);
 		add(tools);
+		
 		
 		setVisible(true);
 	}
 	
-	public void setTools() {
+	public void setTools(int slots, int iterations, int shifts, String fileName) {
 		String capField[] = {"Slots:", "Courses:", "Clash File:", "Iters:", "Shift:"};
 		field = new JTextField[capField.length];
 		
-		String capButton[] = {"Load", "Start", "Step", "Print", "Exit"};
+		String capButton[] = {"Load", "Start", "Step", "Print", "Exit", "Continue" };
 		tool = new JButton[capButton.length];
 		
 		tools.setLayout(new GridLayout(2 * capField.length + capButton.length, 1));
@@ -45,10 +51,13 @@ public class TimeTable extends JFrame implements ActionListener {
 			tools.add(tool[i]);
 		}
 		
-		field[0].setText("17");
+		
+		field[0].setText(Integer.toString(slots));
 		field[1].setText("381");
-		field[2].setText("lse-f-91.stu");
-		field[3].setText("1");
+		field[2].setText(fileName);
+		field[3].setText(Integer.toString(iterations));
+		field[4].setText(Integer.toString(shifts));
+				
 	}
 	
 	public void draw() {
@@ -92,7 +101,7 @@ public class TimeTable extends JFrame implements ActionListener {
 					step = iteration;
 				}
 			}
-			System.out.println("Shift = " + field[4].getText() + "\tMin clashes = " + min + "\tat step " + step);
+			System.out.println("Iterations = " + field[3].getText() + " Shift = " + field[4].getText() + "\tMin clashes = " + min + "\tat step " + step);
 			setVisible(true);
 			break;
 		case 2:
@@ -106,10 +115,55 @@ public class TimeTable extends JFrame implements ActionListener {
 			break;
 		case 4:
 			System.exit(0);
+			
+		case 5:
+            min = Integer.MAX_VALUE;
+            step = 0;
+            for (int iteration = 1; iteration <= Integer.parseInt(field[3].getText()); iteration++) {
+                courses.iterate(Integer.parseInt(field[4].getText()));
+                draw();
+                clashes = courses.clashesLeft();
+                if (clashes < min) {
+                    min = clashes;
+                    step = iteration;
+                }
+            }
+            System.out.println("Continuing from the current state...");
+            System.out.println("Iterations = " + field[3].getText() + " Shift = " + field[4].getText()
+                    + "\tMin clashes = " + min + "\tat step " + step);
+            setVisible(true);
+            break;
 		}
 	}
 
 	public static void main(String[] args) {
-		new TimeTable();
+
+	    TimeTable tbSTA = new TimeTable(13, 10, 10, "sta-f-83.stu");
+	    TimeTable tbUTA = new TimeTable(30, 10, 10, "uta-s-93.stu");
+
+	    
+//	    Random random = new Random();
+//
+//	    SwingUtilities.invokeLater(() -> {
+//	        tb.tool[0].doClick();
+//
+//	        SwingUtilities.invokeLater(() -> {
+//	            tb.tool[1].doClick();
+//
+//	            SwingUtilities.invokeLater(() -> {
+//	                for (int i = 0; i < 1000; i++) {
+//	                    int shifts = random.nextInt(1000) + 1;
+//	                    int iterations = random.nextInt(1000) + 1;
+//	                    
+//	                    tb.setTools(17, iterations, shifts);
+//	                    
+//	                    tb.tool[1].doClick();
+//	                }
+//	            });
+//	        });
+//	    });
+	    
+	    
+		
 	}
 }
