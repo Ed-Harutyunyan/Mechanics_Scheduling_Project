@@ -21,6 +21,14 @@ public class CourseArray {
         return slots;
     }
 	
+	public int[] getTimeSlot(int index) {
+        int[] timeSlot = new int[elements.length];
+        for (int i = 0; i < elements.length; i++) {
+            timeSlot[i] = (i == index) ? 1 : -1;
+        }
+        return timeSlot;
+    }
+	
 	public void readClashes(String filename) {
 		try {
 			BufferedReader file = new BufferedReader(new FileReader(filename));
@@ -97,5 +105,21 @@ public class CourseArray {
 	public void printResult() {
 		for (int i = 1; i < elements.length; i++)
 			System.out.println(i + "\t" + elements[i].mySlot);
+	}
+	
+	public int[] slotStatus(int slot) {
+	    int[] results = new int[2];
+	    
+	    for (int i = 1; i < elements.length; i++) {
+	        if (elements[i].mySlot == slot) {
+	            if (elements[i].clashSize() == 0) {
+	                results[0]++; 
+	            } else {
+	                results[1]++; 
+	            }
+	        }
+	    }
+	    
+	    return results;
 	}
 }

@@ -1,6 +1,11 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Random;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.*;
 
@@ -12,7 +17,7 @@ public class TimeTable extends JFrame implements ActionListener {
 	private CourseArray courses;
 	private Color CRScolor[] = {Color.RED, Color.GREEN, Color.BLACK};
 	private String fileName;
-
+    private Autoassociator autoassociator;
 	
 	
 	public TimeTable(int slots, int iterations, int shifts, String fileName) {
@@ -24,10 +29,20 @@ public class TimeTable extends JFrame implements ActionListener {
 		add(screen);
 		
 		setTools(slots, iterations, shifts, fileName);
+		
+		courses = new CourseArray(Integer.parseInt(field[1].getText()) + 1, slots);
+        courses.readClashes(field[2].getText());
+        
 		add(tools);
 		
+		autoassociator = new Autoassociator(courses);
+				
 		
 		setVisible(true);
+	}
+	
+	public CourseArray getC() {
+		return this.courses;
 	}
 	
 	public void setTools(int slots, int iterations, int shifts, String fileName) {
@@ -53,7 +68,7 @@ public class TimeTable extends JFrame implements ActionListener {
 		
 		
 		field[0].setText(Integer.toString(slots));
-		field[1].setText("381");
+		field[1].setText("136");
 		field[2].setText(fileName);
 		field[3].setText(Integer.toString(iterations));
 		field[4].setText(Integer.toString(shifts));
@@ -78,35 +93,36 @@ public class TimeTable extends JFrame implements ActionListener {
 	}
 	
 	public void actionPerformed(ActionEvent click) {
-		int min, step, clashes;
-		
-		switch (getButtonIndex((JButton) click.getSource())) {
-		case 0:
-			int slots = Integer.parseInt(field[0].getText());
-			courses = new CourseArray(Integer.parseInt(field[1].getText()) + 1, slots);
-			courses.readClashes(field[2].getText());
-			draw();
-			break;
-		case 1:
-			min = Integer.MAX_VALUE;
-			step = 0;
-			for (int i = 1; i < courses.length(); i++) courses.setSlot(i, 0);
-			
-			for (int iteration = 1; iteration <= Integer.parseInt(field[3].getText()); iteration++) {
-				courses.iterate(Integer.parseInt(field[4].getText()));
-				draw();
-				clashes = courses.clashesLeft();
-				if (clashes < min) {
-					min = clashes;
-					step = iteration;
-				}
-			}
-			System.out.println("Iterations = " + field[3].getText() + " Shift = " + field[4].getText() + "\tMin clashes = " + min + "\tat step " + step);
-			setVisible(true);
-			break;
-		case 2:
+        int min, step, clashes;
+
+        switch (getButtonIndex((JButton) click.getSource())) {
+            case 0:
+                int slots = Integer.parseInt(field[0].getText());
+                courses = new CourseArray(Integer.parseInt(field[1].getText()) + 1, slots);
+                courses.readClashes(field[2].getText());
+                draw();
+                break;
+            case 1:
+                min = Integer.MAX_VALUE;
+                step = 0;
+                for (int i = 1; i < courses.length(); i++) courses.setSlot(i, 0);
+
+                for (int iteration = 1; iteration <= Integer.parseInt(field[3].getText()); iteration++) {
+                    courses.iterate(Integer.parseInt(field[4].getText()));
+                    draw();
+                    clashes = courses.clashesLeft();
+                    if (clashes < min) {
+                        min = clashes;
+                        step = iteration;
+                    }
+                }
+                System.out.println("Iterations = " + field[3].getText() + " Shift = " + field[4].getText() + "\tMin clashes = " + min + "\tat step " + step);
+                setVisible(true);
+                break;
+        case 2:
 			courses.iterate(Integer.parseInt(field[4].getText()));
 			draw();
+			System.out.println(courses.slotStatus(1)[1]);
 			break;
 		case 3:
 			System.out.println("Exam\tSlot\tClashes");
@@ -134,16 +150,50 @@ public class TimeTable extends JFrame implements ActionListener {
             setVisible(true);
             break;
 		}
+		
+	}
+	
+	public void trainAutoassociator(String csvFilePath) {
+	    List<int[]> trainingExamples = readTrainingExamplesFromCSV(csvFilePath);
+	    for (int[] example : trainingExamples) {
+	        autoassociator.training(example);
+	    }
+	    autoassociator.saveWeights();
 	}
 
+	private List<int[]> readTrainingExamplesFromCSV(String csvFilePath) {
+	    List<int[]> trainingExamples = new ArrayList<>();
+	    try (BufferedReader br = new BufferedReader(new FileReader(csvFilePath))) {
+	        String line;
+	        while ((line = br.readLine()) != null) {
+	            String[] parts = line.trim().split(",");
+	            if (parts.length == 3) { // Only process valid lines
+	                int[] example = new int[3];
+	                example[0] = Integer.parseInt(parts[0].trim());
+	                example[1] = Integer.parseInt(parts[1].trim());
+	                example[2] = Integer.parseInt(parts[2].trim());
+	                trainingExamples.add(example);
+	            }
+	        }
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+	    return trainingExamples;
+	}
 	public static void main(String[] args) {
 
 	    TimeTable tbSTA = new TimeTable(13, 10, 10, "sta-f-83.stu");
-	    TimeTable tbUTA = new TimeTable(30, 10, 10, "uta-s-93.stu");
+	    //TimeTable tbUTA = new TimeTable(30, 10, 10, "uta-s-93.stu");
+		
 
+	    String trainingExamplesFilePath = "/Users/edgharutyunyan/Library/CloudStorage/GoogleDrive-edgar_harutyunyan@edu.aua.am/Other computers/My MacBook Pro/AUA/Spring 2024/Mechanics/Mechanics_Project/SchedulingCS140/sta-f-83_stu_example.csv";
+	    
+	    tbSTA.trainAutoassociator(trainingExamplesFilePath);
+	    
+	   
 	    
 //	    Random random = new Random();
-//
+//		/SchedulingCS140/sta-f-83_stu_examples - Sheet1.csv
 //	    SwingUtilities.invokeLater(() -> {
 //	        tb.tool[0].doClick();
 //
