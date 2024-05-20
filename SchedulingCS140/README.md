@@ -1,3 +1,5 @@
+### Edgar Harutyunyan
+
 # sta-f-83 with Tslots = 13 uta-s-93 with Tslots = 30
 
 The different iterations of the file is in the csv file which is also used for the training of the model
