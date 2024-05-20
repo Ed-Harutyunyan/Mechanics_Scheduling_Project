@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;SchedulingCS140/Weights&apos; to &apos;Weights_sta-f-83&apos;" description="Rename resource &apos;Weights&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="Weights" name="Weights_sta-f-83" stamp="1716022745817" updateReferences="true"/>
+</session>

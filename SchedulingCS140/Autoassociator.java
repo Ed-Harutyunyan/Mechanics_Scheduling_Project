@@ -8,8 +8,8 @@ public class Autoassociator {
     private int trainingCapacity;
     private String filePath;
 
-    public Autoassociator(CourseArray courses) {
-    	this.filePath = "/Users/edgharutyunyan/Library/CloudStorage/GoogleDrive-edgar_harutyunyan@edu.aua.am/Other computers/My MacBook Pro/AUA/Spring 2024/Mechanics/Mechanics_Project/SchedulingCS140/Weights";
+    public Autoassociator(CourseArray courses, String filePath) {
+        this.filePath = filePath;
         int numNeurons = courses.length();
         weights = new int[numNeurons][numNeurons];
         initializeWeights();
@@ -31,10 +31,10 @@ public class Autoassociator {
 
     public int unitUpdate(int neurons[]) {
         Random random = new Random();
-        int index = random.nextInt(neurons.length);
+        int index = random.nextInt(99); 
         int netInput = 0;
 
-        for (int i = 0; i < neurons.length; i++) {
+        for (int i = 0; i < 136; i++) {
             netInput += weights[index][i] * neurons[i];
         }
 
@@ -94,6 +94,7 @@ public class Autoassociator {
         }
     }
 
+    // Xavier Distribution KINDA
     private void initializeWeights() {
         Random random = new Random();
         for (int i = 0; i < weights.length; i++) {
@@ -102,7 +103,8 @@ public class Autoassociator {
             }
         }
     }
-    
+    //
+
     public void saveWeights() {
         try (FileWriter writer = new FileWriter(filePath)) {
             for (int i = 0; i < weights.length; i++) {
